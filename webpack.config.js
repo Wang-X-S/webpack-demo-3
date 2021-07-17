@@ -1,6 +1,6 @@
 var path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     mode:'development',
@@ -20,13 +20,18 @@ module.exports = {
         title: '我的',
         filename: 'index.html',
         template: './index.html'
-        })
+        }),
+        new MiniCssExtractPlugin({
+            filename: 'index.[contenthash].css',
+        }),
     ],
     module: {
         rules: [
-          {
-            test: /\.css$/i,
-            use: ['style-loader', 'css-loader'],
+            {
+                test: /\.css$/i,
+                use: [MiniCssExtractPlugin.loader, "css-loader"],
+              
+            //use: ['style-loader', 'css-loader'],//不单独抽出css，把读到css内容转为js字符串,再讲字符串翻译为style标签内容放入html中
           },
           {
             test: /\.(png|svg|jpg|jpeg|gif)$/i,
